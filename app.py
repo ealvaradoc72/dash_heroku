@@ -5,6 +5,7 @@ import pandas as pd
 import matplotlib as mpl
 import gunicorn                     #whilst your local machine's webserver doesn't need this, Heroku's linux webserver (i.e. dyno) does. I.e. This is your HTTP server
 from whitenoise import WhiteNoise   #for serving static files on Heroku
+import plotly.express as px
 from dash.dependencies import Input, Output
 
 # Instantiate dash app
@@ -12,6 +13,9 @@ from dash.dependencies import Input, Output
 
 
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
+
+df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv')
+
 
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -42,13 +46,15 @@ def create_dash_layout(app):
     # Assemble dash layout 
     #app.layout = html.Div([header, body, footer])
     app.layout = html.Div([header,
-    html.H6("Change the value in the text box to see callbacks in action!"),
-    html.Div([
-        "Input: ",
-        my_input
-    ]),
-    html.Br(),
-    my_output
+    dcc.Graph(id='graph-with-slider'),
+    dcc.Slider(
+        df['year'].min(),
+        df['year'].max(),
+        step=None,
+        value=df['year'].min(),
+        marks={str(year): str(year) for year in df['year'].unique()},
+        id='year-slider'
+    )
     ])  
 
     return app
@@ -57,11 +63,18 @@ def create_dash_layout(app):
 create_dash_layout(app)
 
 @app.callback(
-    Output(my_output, component_property='children'),
-    Input(my_input, component_property='value')
-)
-def update_output(input_value):
-    return f'Output: {input_value}'
+    Output('graph-with-slider', 'figure'),
+    Input('year-slider', 'value'))
+def update_figure(selected_year):
+    filtered_df = df[df.year == selected_year]
+
+    fig = px.scatter(filtered_df, x="gdpPercap", y="lifeExp",
+                     size="pop", color="continent", hover_name="country",
+                     log_x=True, size_max=55)
+
+    fig.update_layout(transition_duration=500)
+
+    return fig
 
 # Run flask app
 if __name__ == "__main__": app.run_server(debug=False, host='0.0.0.0', port=8050)

@@ -15,6 +15,9 @@ external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 
+my_input = dcc.Input(value='initial value', type='text')
+my_output = html.Div()
+
 # Reference the underlying flask app (Used by gunicorn webserver in Heroku production deployment)
 server = app.server 
 
@@ -28,7 +31,7 @@ def create_dash_layout(app):
     app.title = "Titulo de la pagina" 
     
     # Header
-    header = html.Div([html.Br(), dcc.Markdown(""" # Hi. I'm your Dash app."""), html.Br()])
+    header = html.Div([html.Br(), dcc.Markdown(""" # Prueba de app para DASH ."""), html.Br()])
     
     # Body 
     #body = html.Div([dcc.Markdown(""" ## I'm ready to serve static files on Heroku. Just look at this! """), html.Br(), html.Img(src='charlie.png')])
@@ -39,9 +42,13 @@ def create_dash_layout(app):
     # Assemble dash layout 
     #app.layout = html.Div([header, body, footer])
     app.layout = html.Div([header,
-    dcc.Input(id="input-1", type="text", value="Montréal"),
-    dcc.Input(id="input-2", type="text", value="Canada"),
-    html.Div(id="number-output"),
+    html.H6("Change the value in the text box to see callbacks in action!"),
+    html.Div([
+        "Input: ",
+        my_input
+    ]),
+    html.Br(),
+    my_output
     ])  
 
     return app
@@ -50,12 +57,11 @@ def create_dash_layout(app):
 create_dash_layout(app)
 
 @app.callback(
-    Output("number-output", "children"),
-    Input("input-1", "value"),
-    Input("input-2", "value"),
+    Output(my_output, component_property='children'),
+    Input(my_input, component_property='value')
 )
-def update_output(input1, input2):
-    return u'Input 1 is "{}" and Input 2 is "{}"'.format(input1, input2)
+def update_output(input_value):
+    return f'Output: {input_value}'
 
 # Run flask app
 if __name__ == "__main__": app.run_server(debug=False, host='0.0.0.0', port=8050)

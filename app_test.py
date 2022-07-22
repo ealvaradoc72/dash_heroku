@@ -86,73 +86,9 @@ def run_simulation(politica, M, N):
         print("Valor nuevo de M : ",M)
     print(hist_M)
 
-run_simulation(politica, M, N)    
 
-my_input = dcc.Input(value='initial value', type='text')
-my_output = html.Div()
 
-# Reference the underlying flask app (Used by gunicorn webserver in Heroku production deployment)
-server = app.server 
 
-# Enable Whitenoise for serving static files from Heroku (the /static folder is seen as root by Heroku) 
-server.wsgi_app = WhiteNoise(server.wsgi_app, root='static/') 
-
-# Define Dash layout
-def create_dash_layout(app):
-
-    # Set browser tab title
-    app.title = "Titulo de la pagina" 
-    
-    # Header
-    header = html.Div([html.Br(), dcc.Markdown(""" # Simulación """), html.Br()])
-    
-    # Body 
-    #body = html.Div([dcc.Markdown(""" ## I'm ready to serve static files on Heroku. Just look at this! """), html.Br(), html.Img(src='charlie.png')])
-
-    # Footer
-    #footer = html.Div([html.Br(), html.Br(), dcc.Markdown(""" ### Built with ![Image](heart.png) in Python using [Dash](https://plotly.com/dash/)""")])
-    
-    # Assemble dash layout 
-    #app.layout = html.Div([header, body, footer])
-    app.layout = html.Div([header,
-    dcc.Input(id='input-on-submit', type='text'),
-    html.Button('Submit', id='submit-val', n_clicks=0),
-    html.Div(id='container-button-basic',
-             children='Numero de repeticiones: ') ,                         
-    dcc.Graph(id='graph-with-slider'),
-    dcc.Slider(
-        df['year'].min(),
-        df['year'].max(),
-        step=None,
-        value=df['year'].min(),
-        marks={str(year): str(year) for year in df['year'].unique()},
-        id='year-slider'
-    )
-    ])  
-
-    return app
-
-# Construct the dash layout
-create_dash_layout(app)
-
-@app.callback(
-    Output('graph-with-slider', 'figure'),
-    Input('year-slider', 'value'))
-def update_figure(selected_year):
-    classes = ['Clase 1', 'Clase 2', 'Clase 3', 'Clase 4']
-    df = pd.DataFrame(M)
-    df.columns = classes
-    filtered_df = df[df.year == selected_year]
-    fig = px.bar(df, x="nation", y="count", color="medal", title="Long-Form Input")
-    fig.show()
-
-    fig = px.scatter(filtered_df, x="gdpPercap", y="lifeExp",
-                     size="pop", color="continent", hover_name="country",
-                     log_x=True, size_max=55)
-
-    fig.update_layout(transition_duration=500)
-
-    return fig
-
-# Run flask app
-if __name__ == "__main__": app.run_server(debug=False, host='0.0.0.0', port=8050)
+if __name__ == "__main__": 
+    app.run_server(debug=False, host='0.0.0.0', port=8050)
+    run_simulation(politica, M, N)        

@@ -24,6 +24,36 @@ df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapmi
 
 app = Dash(__name__, external_stylesheets=external_stylesheets)
 
+acciones = np.array([
+    [[0.25,0.20,0.40,0.15],[0.00,0.94,0.04,0.02],[0.01,0.19,0.30,0.50],[0.10,0.20,0.30,0.40]],
+    [[0.02,0.20,0.18,0.60],[0.00,0.60,0.12,0.27],[0.06,0.29,0.18,0.47],[0.05,0.61,0.10,0.23]],
+    [[0.00,0.36,0.09,0.55],[0.01,0.49,1.10,0.40],[0.01,0.57,0.09,0.33],[0.03,0.69,0.08,0.20]],
+    [[0.25,0.20,0.40,0.15],[0.00,0.94,0.04,0.02],[0.01,0.19,0.30,0.50],[0.10,0.20,0.30,0.40]],
+    [[0.02,0.20,0.18,0.60],[0.00,0.60,0.12,0.27],[0.06,0.29,0.18,0.47],[0.05,0.61,0.10,0.23]],
+    [[0.00,0.36,0.09,0.55],[0.01,0.49,1.10,0.40],[0.01,0.57,0.09,0.33],[0.03,0.69,0.08,0.20]],
+    [[0.25,0.20,0.40,0.15],[0.00,0.94,0.04,0.02],[0.01,0.19,0.30,0.50],[0.10,0.20,0.30,0.40]],
+    [[0.02,0.20,0.18,0.60],[0.00,0.60,0.12,0.27],[0.06,0.29,0.18,0.47],[0.05,0.61,0.10,0.23]],
+    [[0.25,0.20,0.40,0.15],[0.00,0.94,0.04,0.02],[0.01,0.19,0.30,0.50],[0.10,0.20,0.30,0.40]],
+    [[0.02,0.20,0.18,0.60],[0.00,0.60,0.12,0.27],[0.06,0.29,0.18,0.47],[0.05,0.61,0.10,0.23]],
+    [[0.00,0.36,0.09,0.55],[0.01,0.49,1.10,0.40],[0.01,0.57,0.09,0.33],[0.03,0.69,0.08,0.20]],
+    [[0.25,0.20,0.40,0.15],[0.00,0.94,0.04,0.02],[0.01,0.19,0.30,0.50],[0.10,0.20,0.30,0.40]],
+    [[0.02,0.20,0.18,0.60],[0.00,0.60,0.12,0.27],[0.06,0.29,0.18,0.47],[0.05,0.61,0.10,0.23]],
+    [[0.00,0.36,0.09,0.55],[0.01,0.49,1.10,0.40],[0.01,0.57,0.09,0.33],[0.03,0.69,0.08,0.20]],
+    [[0.25,0.20,0.40,0.15],[0.00,0.94,0.04,0.02],[0.01,0.19,0.30,0.50],[0.10,0.20,0.30,0.40]],
+    [[0.02,0.20,0.18,0.60],[0.00,0.60,0.12,0.27],[0.06,0.29,0.18,0.47],[0.05,0.61,0.10,0.23]],
+    [[0.25,0.20,0.40,0.15],[0.00,0.94,0.04,0.02],[0.01,0.19,0.30,0.50],[0.10,0.20,0.30,0.40]],
+    [[0.02,0.20,0.18,0.60],[0.00,0.60,0.12,0.27],[0.06,0.29,0.18,0.47],[0.05,0.61,0.10,0.23]],
+    [[0.00,0.36,0.09,0.55],[0.01,0.49,1.10,0.40],[0.01,0.57,0.09,0.33],[0.03,0.69,0.08,0.20]],
+    [[0.25,0.20,0.40,0.15],[0.00,0.94,0.04,0.02],[0.01,0.19,0.30,0.50],[0.10,0.20,0.30,0.40]],
+    [[0.02,0.20,0.18,0.60],[0.00,0.60,0.12,0.27],[0.06,0.29,0.18,0.47],[0.05,0.61,0.10,0.23]],
+    [[0.00,0.36,0.09,0.55],[0.01,0.49,1.10,0.40],[0.01,0.57,0.09,0.33],[0.03,0.69,0.08,0.20]],
+    [[0.25,0.20,0.40,0.15],[0.00,0.94,0.04,0.02],[0.01,0.19,0.30,0.50],[0.10,0.20,0.30,0.40]],
+    [[0.02,0.20,0.18,0.60],[0.00,0.60,0.12,0.27],[0.06,0.29,0.18,0.47],[0.05,0.61,0.10,0.23]],
+    [[0.00,0.36,0.09,0.55],[0.01,0.49,1.10,0.40],[0.01,0.57,0.09,0.33],[0.03,0.69,0.08,0.20]],
+    [[0.25,0.20,0.40,0.15],[0.00,0.94,0.04,0.02],[0.01,0.19,0.30,0.50],[0.10,0.20,0.30,0.40]],
+    [[0.02,0.20,0.18,0.60],[0.00,0.60,0.12,0.27],[0.06,0.29,0.18,0.47],[0.05,0.61,0.10,0.23]],
+])
+
 K = np.array([
     [[0.25,0.20,0.40,0.15],[0.00,0.94,0.04,0.02],[0.01,0.19,0.30,0.50],[0.10,0.20,0.30,0.40]],
     [[0.02,0.20,0.18,0.60],[0.00,0.60,0.12,0.27],[0.06,0.29,0.18,0.47],[0.05,0.61,0.10,0.23]],
@@ -84,9 +114,7 @@ def run_simulation(politica, M, N):
         hist_M.append(paso(M,N,np.array(ka)))
         M = hist_M[-1]
         print("Valor nuevo de M : ",M)
-    print(hist_M)
-
-run_simulation(politica, M, N)    
+    return hist_M
 
 my_input = dcc.Input(value='initial value', type='text')
 my_output = html.Div()
@@ -102,55 +130,122 @@ def create_dash_layout(app):
 
     # Set browser tab title
     app.title = "Titulo de la pagina" 
-    
     # Header
-    header = html.Div([html.Br(), dcc.Markdown(""" # Simulación """), html.Br()])
-    
+    header = html.Div([dcc.Markdown(""" ### Búsqueda de estrategias en manejo de engorda de bovinos """)], style={'width': '100%', 'text-align': 'center'})
     # Body 
     #body = html.Div([dcc.Markdown(""" ## I'm ready to serve static files on Heroku. Just look at this! """), html.Br(), html.Img(src='charlie.png')])
-
     # Footer
     #footer = html.Div([html.Br(), html.Br(), dcc.Markdown(""" ### Built with ![Image](heart.png) in Python using [Dash](https://plotly.com/dash/)""")])
-    
     # Assemble dash layout 
     #app.layout = html.Div([header, body, footer])
-    app.layout = html.Div([header,
-    dcc.Input(id='input-on-submit', type='text'),
-    html.Button('Submit', id='submit-val', n_clicks=0),
-    html.Div(id='container-button-basic',
-             children='Numero de repeticiones: ') ,                         
-    dcc.Graph(id='graph-with-slider'),
-    dcc.Slider(
-        df['year'].min(),
-        df['year'].max(),
-        step=None,
-        value=df['year'].min(),
-        marks={str(year): str(year) for year in df['year'].unique()},
-        id='year-slider'
-    )
-    ])  
-
+    app.layout = html.Div([
+        header,
+        html.Div([
+            html.Label('Valor de N',style={'display':'inline-block','margin-right':20}),
+            dcc.Input(id='valor_N',type='text',placeholder='',value = 3000, style={'display':'inline-block'}),
+            html.Label('Valor de S',style={'display':'inline-block','margin-right':20}),
+            dcc.Input(id='valor_S',type='text',placeholder='',value = 6, style={'display':'inline-block'}),
+        ], style={'width': '48%', 'display': 'inline-block'}),
+        html.Div([
+            html.Div('Agrega acciones a la estrategia', id = 'acciones_en_politica'),
+            dcc.Dropdown(['a1', 'a2', 'a3', 'a4', 'a5','a6', 'a7', 'a8','a9','a10','a11','a12', 'a13', 'a14', 
+            'a15','a16', 'a17', 'a18','a19','a20','a21', 'a22', 'a23', 'a24', 'a25','a26', 'a27'], id='estrategia1',
+            multi=True, persistence=False),
+            html.Button('Correr simulación', id='submit-val', n_clicks=0),
+        ],style={'width': '45%', 'display': 'inline-block'}),
+        html.Div([
+            dcc.Graph(
+                id='t_series_graph'
+            )],
+            style={'display': 'inline-block', 'width': '49%'},
+    className="container"),
+    ])
+    
     return app
 
 # Construct the dash layout
 create_dash_layout(app)
 
+
 @app.callback(
-    Output('graph-with-slider', 'figure'),
-    Input('year-slider', 'value'))
-def update_figure(selected_year):
+    Output('estrategia1', 'disabled'),
+    Output('acciones_en_politica', 'children'),
+    Input('estrategia1', 'value'),
+    Input('valor_S', 'value'),
+)
+def update_output(value, s):
+    s = int(s)
+    if len(value) == s:
+        return(True, 'Agrega {s} acciones a la estrategia '.format(s=s-len(value)))
+    else:
+        return(False, 'Agrega {s} acciones a la estrategia '.format(s=s-len(value)))
+    
+
+#@app.callback(
+#    Output('t_series_graph', 'figure'),
+#    Input('valor_N', 'value'),
+#    Input('valor_S', 'value')
+#)
+
+#def update_vars(N, S):
+#    return (N, S)
+
+
+@app.callback(
+    Output('t_series_graph', 'figure'),
+    Input('submit-val', 'value'),
+)
+   
+def update_figure(value):
+    
+    
+    K = np.array([
+        [[0.25,0.20,0.40,0.15],[0.00,0.94,0.04,0.02],[0.01,0.19,0.30,0.50],[0.10,0.20,0.30,0.40]],
+        [[0.02,0.20,0.18,0.60],[0.00,0.60,0.12,0.27],[0.06,0.29,0.18,0.47],[0.05,0.61,0.10,0.23]],
+        [[0.00,0.36,0.09,0.55],[0.01,0.49,1.10,0.40],[0.01,0.57,0.09,0.33],[0.03,0.69,0.08,0.20]],
+    ])
+
+    M = np.array([150,50,50,50])
+    politica = K
+    ka1 = K[0]
+    n = M.shape[0]
+    b = np.zeros((n,1))
+    print("b",b)
+    print("tpo de B: ", type(b))
+    print ("n :",n)
+    print("valor de ka1: ",ka1)
+    print("tipo de Ka1: ", type(ka1))
+    c = np.c_[b,ka1.cumsum(axis=1)]
+    print(c)
+    print (c[0,0])
+    print(c[0,1])
+    
+    hist_M = run_simulation(politica, M, N)    
+#    if estrategia1 is not None:
     classes = ['Clase 1', 'Clase 2', 'Clase 3', 'Clase 4']
-    df = pd.DataFrame(M)
-    df.columns = classes
-    filtered_df = df[df.year == selected_year]
-    fig = px.bar(df, x="nation", y="count", color="medal", title="Long-Form Input")
-    fig.show()
+    df = pd.DataFrame(hist_M, columns=classes)
+    df = df * N
+    df.reset_index(inplace=True)
+    df = df.rename(columns = {'index':'episodio'})
+    print(df)
+    #fig = px.line(df, x="episodio", y=df.columns[1:5], title='Proporción aleatoria de objetos en cada clase')
 
-    fig = px.scatter(filtered_df, x="gdpPercap", y="lifeExp",
-                     size="pop", color="continent", hover_name="country",
-                     log_x=True, size_max=55)
+    #df = px.data.tips() # replace with your own data source
+    #mask = df["day"] == day
+    fig = px.bar(df, x="episodio", y=df.columns[1:5], title='Proporción aleatoria de objetos en cada clase', 
+                 barmode="group")
+    return fig
 
-    fig.update_layout(transition_duration=500)
+    #fig = px.line(df, x="episodio", y="Clase 2", title='Life expectancy in Canada')
+    #fig.add_scatter(x=df['episodio'], y=df['Clase 2'], )
+    #fig.add_scatter(x=df['episodio'], y=df['Clase 3'])
+    #fig.add_scatter(x=df['episodio'], y=df['Clase 4'])
+    #fig.show()
+
+#    fig = px.bar(df, x="nation", y="count", color="medal", title="Long-Form Input")
+#    fig.show()
+
+#    fig.update_layout(transition_duration=500)
 
     return fig
 
